@@ -1,7 +1,7 @@
 ﻿using AspNetCore.Form;
 using System.ComponentModel.DataAnnotations;
 
-namespace WebApplicationDemo
+namespace VueFront
 {
     public class Customer
     {
@@ -12,7 +12,7 @@ namespace WebApplicationDemo
             Email = email;
         }
         [Required]
-        [Form("Name", InputType = InputType.Text)]
+        [Form]
         public string Name { get; set; }
         [Required]
         public int Age { get; set; }

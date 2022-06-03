@@ -5,6 +5,11 @@ namespace AspNetCore.Form
     [AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = true)]
     public class FormAttribute : Attribute
     {
+        public FormAttribute()
+        {
+
+        }
+
         public FormAttribute( string name) //OperationType operation,
         {
             //Operation = operation;
@@ -20,7 +25,7 @@ namespace AspNetCore.Form
         // All controls
         public object DefaultValue { get; set; }
         public string Group { get; set; }
-        public bool IsVisible { get; set; }
+        public bool IsVisible { get; set; } = true;
         //public bool ExcludeFromResponse { get; set; }
 
         // Only for dependent controls

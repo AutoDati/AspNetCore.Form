@@ -1,6 +1,6 @@
 using System;
 
-namespace WebApplicationDemo
+namespace VueFront
 {
     public class WeatherForecast
     {

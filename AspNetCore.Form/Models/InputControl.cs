@@ -33,7 +33,7 @@ namespace AspNetCore.Form
             //Unmask = formAttribute.Unmask;
             //CharacterPattern = formAttribute.CharacterPattern;
             //FileAccept = formAttribute.FileAccept;
-            Name = formAttribute.Name;
+            Name = formAttribute.Name ?? PropertyName;
             IsVisible = formAttribute.IsVisible ? null : (bool?)false;
             //ExcludeFromResponse = formAttribute.ExcludeFromResponse;
             SourceName = formAttribute.SourceName;
@@ -43,9 +43,9 @@ namespace AspNetCore.Form
             //VisibleBasedOnInput = formAttribute.VisibleBasedOnInput;
             //HiddenBasedOnInput = formAttribute.HiddenBasedOnInput;
 
-            //var control =  formAttribute.ForcedType != FormType.Default ? formAttribute.ForcedType : GetControlType();
+            //var control =  formAttribute.InputType != Form.InputType.Default ? formAttribute.InputType.ToString().ToLower() : GetControlType();
 
-            InputType = formAttribute.InputType.ToString(); // new SimpleNamedEntity { Id = ((int)control).ToString(), Name = control.ToString() };
+            InputType = formAttribute.InputType != Form.InputType.Default ? formAttribute.InputType.ToString().ToLower() : GetControlType(); // new SimpleNamedEntity { Id = ((int)control).ToString(), Name = control.ToString() };
 
             //if (control == FormType.DropDown || control == FormType.MultiSelect || control == FormType.LinkedDropDown)
             //{
@@ -139,35 +139,35 @@ namespace AspNetCore.Form
             {
                 if (MaxLength.HasValue && MaxLength.Value <= 512)
                 {
-                    return Form.InputType.Text.ToString();
+                    return Form.InputType.Text.ToString().ToLower() ;
                 }
                 else if (MaxLength.HasValue && MaxLength.Value > 512)
                 {
-                    return Form.InputType.TextArea.ToString();
+                    return Form.InputType.TextArea.ToString().ToLower() ;
                 }
                 else
                 {
-                    return Form.InputType.Text.ToString();
+                    return Form.InputType.Text.ToString().ToLower() ;
                 }
             }
             else if (_type.FullName == typeof(Boolean).FullName || _type.FullName == typeof(Boolean?).FullName)
             {
-                return Form.InputType.CheckBox.ToString();
+                return Form.InputType.CheckBox.ToString().ToLower() ;
             }
             else if (_type.FullName == typeof(Int32).FullName || _type.FullName == typeof(Int64).FullName ||
                      _type.FullName == typeof(Int32?).FullName || _type.FullName == typeof(Int64?).FullName)
             {
-                return Form.InputType.Number.ToString();
+                return Form.InputType.Number.ToString().ToLower() ;
             }
             else if (_type.FullName == typeof(Single).FullName || _type.FullName == typeof(Single?).FullName ||
                      _type.FullName == typeof(Double).FullName || _type.FullName == typeof(Double?).FullName ||
                      _type.FullName == typeof(Decimal).FullName || _type.FullName == typeof(Decimal?).FullName)
             {
-                return Form.InputType.Decimal.ToString();
+                return Form.InputType.Decimal.ToString().ToLower() ;
             }
             else if (_type.FullName == typeof(DateTime).FullName || _type.FullName == typeof(DateTime?).FullName)
             {
-                return Form.InputType.Calendar.ToString();
+                return Form.InputType.Calendar.ToString().ToLower() ;
             }
             //else if (typeof(BaseEntity).IsAssignableFrom(_type))
             //{
@@ -176,23 +176,23 @@ namespace AspNetCore.Form
             //}
             else if (_type.IsEnum)
             {
-                return Form.InputType.DropDown.ToString();
+                return Form.InputType.DropDown.ToString().ToLower() ;
             }
             else if (Nullable.GetUnderlyingType(_type)?.IsEnum == true)
             {
-                return Form.InputType.DropDown.ToString();
+                return Form.InputType.DropDown.ToString().ToLower() ;
             }
             else if (_type.FullName == typeof(string[]).FullName || _type.FullName == typeof(List<string>).FullName)
             {
-                return Form.InputType.List.ToString();
+                return Form.InputType.List.ToString().ToLower() ;
             }
             else if (_type.FullName.StartsWith("System.Collections.Generic.List`1") || _type.FullName.StartsWith("System.Collections.Generic.IEnumerable`1"))
             {
-                return Form.InputType.MultiSelect.ToString();
+                return Form.InputType.MultiSelect.ToString().ToLower() ;
             }
             else if (_type.FullName == typeof(Guid).FullName || _type.FullName == typeof(Guid?).FullName)
             {
-                return Form.InputType.Text.ToString();
+                return Form.InputType.Text.ToString().ToLower() ;
             }
             else
             {

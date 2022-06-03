@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Itens de Solução", "Itens
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{80437B07-181D-4421-8C7E-B939B9F8A90F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplicationDemo", "WebApplicationDemo\WebApplicationDemo.csproj", "{2BE09699-B280-465C-9F89-E06F93C92D95}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspCoreVue", "VueFront\AspCoreVue.csproj", "{6D04E973-8315-460F-AA5A-0BA43B4A4400}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,16 +25,16 @@ Global
 		{18F388F2-C9FA-471F-88E6-DDC05276FF3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18F388F2-C9FA-471F-88E6-DDC05276FF3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18F388F2-C9FA-471F-88E6-DDC05276FF3B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2BE09699-B280-465C-9F89-E06F93C92D95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2BE09699-B280-465C-9F89-E06F93C92D95}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2BE09699-B280-465C-9F89-E06F93C92D95}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2BE09699-B280-465C-9F89-E06F93C92D95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D04E973-8315-460F-AA5A-0BA43B4A4400}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D04E973-8315-460F-AA5A-0BA43B4A4400}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D04E973-8315-460F-AA5A-0BA43B4A4400}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D04E973-8315-460F-AA5A-0BA43B4A4400}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{2BE09699-B280-465C-9F89-E06F93C92D95} = {80437B07-181D-4421-8C7E-B939B9F8A90F}
+		{6D04E973-8315-460F-AA5A-0BA43B4A4400} = {80437B07-181D-4421-8C7E-B939B9F8A90F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EAB95E3E-FB5D-4514-8294-AF31347D0CCD}

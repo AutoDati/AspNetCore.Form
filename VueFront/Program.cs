@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebApplicationDemo
+namespace VueFront
 {
     public class Program
     {

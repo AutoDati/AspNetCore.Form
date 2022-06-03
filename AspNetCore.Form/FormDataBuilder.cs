@@ -25,7 +25,7 @@ namespace AspNetCore.Form
 
                 if (dialogData != null)// && (operation == dialogData.Operation || dialogData.Operation == OperationType.CreateAndUpdate))
                 {
-                    var name = Char.ToLower(property.Name[0]) + property.Name.Substring(1);
+                    var name =  Char.ToLower(property.Name[0]) + property.Name.Substring(1);
 
                     //if (dialogData.Source == DataSource.ChildForm)
                     //{
