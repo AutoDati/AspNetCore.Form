@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace AspNetCore.Form
+﻿namespace AspNetCore.Form
 {
     public enum InputType
     {
+        /// <summary>
+        /// Sets type based on the property type
+        /// </summary>
         Default = 0,
-        Calendar = 16,
         CheckBox = 1,
-        CheckBoxGroup = 2,
-        ColorPicker = 3,
+        Date = 2,
+        Color = 3,
         Currency = 4,
         DropDown = 5,
         File = 6,
@@ -21,9 +19,14 @@ namespace AspNetCore.Form
         Switch = 11,
         Text = 12,
         TextArea = 13,
-        TextMask = 14,
-        LinkedDropDown = 15,
+        Tel = 14,
+        Url = 15,
+        Time = 16,
+        EMail = 17,
         List = 18,
+        Month = 19,
+        Week = 20,
+        Range = 21,
         Decimal = 22,
     }
 }

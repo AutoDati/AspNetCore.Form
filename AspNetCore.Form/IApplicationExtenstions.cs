@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 
 namespace AspNetCore.Form
@@ -31,7 +32,7 @@ namespace AspNetCore.Form
                         {
                             var Inputs = builder.Build(type);
 
-                            if (Inputs.Count > 0 )
+                            if (Inputs.Count > 0)
                             {
                                 result.Add(Char.ToLower(type.Name[0]) + type.Name.Substring(1), Inputs );
                             }

@@ -10,26 +10,30 @@ namespace AspNetCore.Form
 
         }
 
-        public FormAttribute( string name) //OperationType operation,
+        public FormAttribute( string label) //OperationType operation,
         {
             //Operation = operation;
-            Name = name;
+            Label = label;
             //IsVisible = true;
         }
 
-        public string Name { get; }
+        public string Label { get; }
         //public OperationType Operation { get; }
         public string DataSource { get; set; }
-        public InputType InputType { get; set; }
+        public InputType Type { get; set; }
 
         // All controls
         public object DefaultValue { get; set; }
         public string Group { get; set; }
         public bool IsVisible { get; set; } = true;
+
+        public string PlaceHolder { get; set; }
+
+        public string Helper { get; set; }
         //public bool ExcludeFromResponse { get; set; }
 
         // Only for dependent controls
-        //public string DependsOn { get; set; }
+        public string DependsOn { get; set; }
 
         // Only for Text Area controls
         public int TextAreaRows { get; set; }

@@ -6,17 +6,28 @@ Provides and endpoint for form schema's to be consume by front ends
 
 Produces form schema's to be consumed by different front end form builders like:
 
-- [Vue FormKit](https://formkit.com/advanced/schema#formkit-inputs)
-- [React JsonSchema Forms](https://react-jsonschema-form.readthedocs.io/en/latest/usage/objects/)
-- [Angular](https://angular.io/guide/dynamic-form#create-a-form-object-model)
+- Form.io (the core and frameworks version are open source)
+  - [Formio core](https://github.com/formio/formio.js)
+  - [Vue](https://github.com/formio/vue)
+  - [React](https://github.com/formio/react)
+  - [Anular](https://github.com/formio/angular)
+
+- Other libraries
+  - [Vue FormKit](https://formkit.com/advanced/schema#formkit-inputs)
+  - [React JsonSchema Forms](https://react-jsonschema-form.readthedocs.io/en/latest/usage/objects/)
+  - [Angular](https://angular.io/guide/dynamic-form#create-a-form-object-model)
 
 ## Getting started
 
+``` csharp
+// startup.cs
+...
 service.AddFormEndpoint(assembly list)
 
-app.useRouting();
-
+...
+app.useRouting(); //should be called only once and before useFormEndpoint()
 app.useFormEndpoint();
+```
 
 ## References from other projects
 

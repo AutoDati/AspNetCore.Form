@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace VueFront
 {
+    [FormGroup]
     public class Customer
     {
         public Customer(string name, int age, string email)
@@ -12,11 +13,13 @@ namespace VueFront
             Email = email;
         }
         [Required]
-        [Form]
+        [MinLength(3)]
         public string Name { get; set; }
+        [Range(3,10)]
         [Required]
+        [Form( PlaceHolder = "type your age" )]
         public int Age { get; set; }
-        [EmailAddress]
+        [EmailAddress] 
         public string Email { get; set; }
     }
 }

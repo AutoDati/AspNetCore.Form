@@ -8,57 +8,65 @@ namespace AspNetCore.Form
     {
         private readonly Type _type;
 
-        public InputControl(string propertyName)
+        public InputControl(string label)
         {
-            Name = propertyName;
+            Label = label;
         }
 
-        public InputControl(string propertyName, Type type, RequiredAttribute requiredAttribute, MinLengthAttribute minlengAttribute,
+        public InputControl(string name, Type type, RequiredAttribute requiredAttribute, MinLengthAttribute minlengAttribute,
             MaxLengthAttribute maxlengAttribute, FormAttribute formAttribute)
         {
             _type = type;
 
-            PropertyName = propertyName; // String.IsNullOrEmpty(formAttribute.OverridePropertyName) ? propertyName : formAttribute.OverridePropertyName;
+            PropertyName = name; // String.IsNullOrEmpty(formAttribute.OverridePropertyName) ? propertyName : formAttribute.OverridePropertyName;
             Required = requiredAttribute != null;
             MinLength = minlengAttribute != null ? (int?)minlengAttribute.Length : null;
             MaxLength = maxlengAttribute != null ? (int?)maxlengAttribute.Length : null;
 
-            DataSource = formAttribute.DataSource; // != UIAnnotations.DataSource.None
-                                                   //? new SimpleNamedEntity { Id = ((int)formAttribute.Source).ToString(), Name = formAttribute.Source.ToString() }
-                                                   //: null;
-            DefaultValue = formAttribute.DefaultValue;
-            //DependsOn = formAttribute.DependsOn;
-            Group = formAttribute.Group;
-            //Mask = formAttribute.Mask;
-            //Unmask = formAttribute.Unmask;
-            //CharacterPattern = formAttribute.CharacterPattern;
-            //FileAccept = formAttribute.FileAccept;
-            Name = formAttribute.Name ?? PropertyName;
-            IsVisible = formAttribute.IsVisible ? null : (bool?)false;
-            //ExcludeFromResponse = formAttribute.ExcludeFromResponse;
-            SourceName = formAttribute.SourceName;
-            //EntityLabelPropertyName = formAttribute.EntityLabelPropertyName;
-            //LinkedDisplayName = formAttribute.LinkedDisplayName;
-            //LinkedPropertyName = formAttribute.LinkedPropertyName;
-            //VisibleBasedOnInput = formAttribute.VisibleBasedOnInput;
-            //HiddenBasedOnInput = formAttribute.HiddenBasedOnInput;
+            Label = formAttribute?.Label ?? PropertyName;
 
-            //var control =  formAttribute.InputType != Form.InputType.Default ? formAttribute.InputType.ToString().ToLower() : GetControlType();
+            PlaceHolder = formAttribute?.PlaceHolder;
+            Helper = formAttribute?.Helper;
 
-            InputType = formAttribute.InputType != Form.InputType.Default ? formAttribute.InputType.ToString().ToLower() : GetControlType(); // new SimpleNamedEntity { Id = ((int)control).ToString(), Name = control.ToString() };
 
-            //if (control == FormType.DropDown || control == FormType.MultiSelect || control == FormType.LinkedDropDown)
-            //{
-            //    PropertyName = FixDropDownName(propertyName);
-            //    ShowFilter = formAttribute.ShowFilter;
-            //    FilterMatchMode = formAttribute.FilterMatchMode;
-            //}
-
-            if (formAttribute.InputType == Form.InputType.TextArea)
-            {
-                TextAreaRows = formAttribute.TextAreaRows > 0 ? formAttribute.TextAreaRows : 5;
+            DataSource = formAttribute?.DataSource; 
+            
+            if (formAttribute is null) {
+                Type =  GetControlType(); // new SimpleNamedEntity { Id = ((int)control).ToString(), Name = control.ToString() };
             }
+            else {
+                DefaultValue = formAttribute.DefaultValue;
+                //DependsOn = formAttribute.DependsOn;
+                Group = formAttribute.Group;
+                //Mask = formAttribute.Mask;
+                //Unmask = formAttribute.Unmask;
+                //CharacterPattern = formAttribute.CharacterPattern;
+                //FileAccept = formAttribute.FileAccept;
+                IsVisible = formAttribute.IsVisible ? null : (bool?)false;
+                //ExcludeFromResponse = formAttribute.ExcludeFromResponse;
+                SourceName = formAttribute.SourceName;
+                //EntityLabelPropertyName = formAttribute.EntityLabelPropertyName;
+                //LinkedDisplayName = formAttribute.LinkedDisplayName;
+                //LinkedPropertyName = formAttribute.LinkedPropertyName;
+                //VisibleBasedOnInput = formAttribute.VisibleBasedOnInput;
+                //HiddenBasedOnInput = formAttribute.HiddenBasedOnInput;
 
+                //var control =  formAttribute.InputType != Form.InputType.Default ? formAttribute.InputType.ToString().ToLower() : GetControlType();
+
+                Type = formAttribute.Type != Form.InputType.Default ? formAttribute.Type.ToString().ToLower() : GetControlType(); // new SimpleNamedEntity { Id = ((int)control).ToString(), Name = control.ToString() };
+
+                //if (control == FormType.DropDown || control == FormType.MultiSelect || control == FormType.LinkedDropDown)
+                //{
+                //    PropertyName = FixDropDownName(propertyName);
+                //    ShowFilter = formAttribute.ShowFilter;
+                //    FilterMatchMode = formAttribute.FilterMatchMode;
+                //}
+
+                if (formAttribute.Type == Form.InputType.TextArea)
+                {
+                    TextAreaRows = formAttribute.TextAreaRows > 0 ? formAttribute.TextAreaRows : 5;
+                }
+            }
             // -- 
 
             Type enumType = null;
@@ -97,12 +105,12 @@ namespace AspNetCore.Form
             // --
         }
 
-        public string InputType { get; set; }
+        public string Type { get; set; }
         public string DataSource { get; set; }
         public string SourceName { get; set; }
         public string PropertyName { get; set; }
 
-        public string Name { get; set; }
+        public string Label { get; set; }
         public object DefaultValue { get; set; }
         public string Group { get; set; }
         public bool? IsVisible { get; set; } = true;
@@ -124,6 +132,9 @@ namespace AspNetCore.Form
         public bool Required { get; set; }
         public int? MinLength { get; set; }
         public int? MaxLength { get; set; }
+
+        public string PlaceHolder { get; set; }
+        public string Helper { get; set; }
         //public List<SimpleNamedEntity<object>> Data { get; set; }
 
         //public string EntityLabelPropertyName { get; set; }
@@ -135,6 +146,13 @@ namespace AspNetCore.Form
 
         private string GetControlType()
         {
+            switch (_type)
+            {
+                
+                default:
+                    break;
+            }
+
             if (_type.FullName == typeof(String).FullName)
             {
                 if (MaxLength.HasValue && MaxLength.Value <= 512)
@@ -167,7 +185,7 @@ namespace AspNetCore.Form
             }
             else if (_type.FullName == typeof(DateTime).FullName || _type.FullName == typeof(DateTime?).FullName)
             {
-                return Form.InputType.Calendar.ToString().ToLower() ;
+                return Form.InputType.Date.ToString().ToLower() ;
             }
             //else if (typeof(BaseEntity).IsAssignableFrom(_type))
             //{

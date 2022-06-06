@@ -12,8 +12,8 @@ namespace AspNetCore.Form
         public List<FormGroup> Build(Type type) //, OperationType operation
         {
             var results = new List<FormGroup>();
-
             var allInputs = new List<InputControl>();
+            var isFormGroupClass = type.GetCustomAttributes(typeof(FormGroupAttribute), false).Any();
 
             foreach (var property in type.GetProperties())
             {
@@ -23,9 +23,9 @@ namespace AspNetCore.Form
 
                 var dialogData = type.GetAttributeFrom<FormAttribute>(property);
 
-                if (dialogData != null)// && (operation == dialogData.Operation || dialogData.Operation == OperationType.CreateAndUpdate))
+                if (dialogData != null || isFormGroupClass)// && (operation == dialogData.Operation || dialogData.Operation == OperationType.CreateAndUpdate))
                 {
-                    var name =  Char.ToLower(property.Name[0]) + property.Name.Substring(1);
+                    var name = property.Name; // Char.ToLower(property.Name[0]) + property.Name.Substring(1);
 
                     //if (dialogData.Source == DataSource.ChildForm)
                     //{
