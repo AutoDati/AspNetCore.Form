@@ -39,7 +39,7 @@ const recommendation = ref("10");
     <FormKitSchema :schema="formStore.getForm('customer')" />
   </div>
 
-  <div class="form">
+  <!-- <div class="form">
     <FormKit type="group" v-model="formData">
       <FormKit
         name="hello_world"
@@ -70,7 +70,7 @@ const recommendation = ref("10");
         <pre class="range-output">{{ recommendation }} </pre>
       </div>
     </FormKit>
-  </div>
+  </div> -->
 
   <h2>Modeled group values</h2>
   <!-- <pre class="form-data">{{ formData }}</pre> -->

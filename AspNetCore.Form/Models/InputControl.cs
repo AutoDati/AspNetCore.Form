@@ -14,7 +14,7 @@ namespace AspNetCore.Form
         }
 
         public InputControl(string name, Type type, RequiredAttribute requiredAttribute, MinLengthAttribute minlengAttribute,
-            MaxLengthAttribute maxlengAttribute, FormAttribute formAttribute)
+            MaxLengthAttribute maxlengAttribute,  FormAttribute formAttribute)
         {
             _type = type;
 

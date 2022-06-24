@@ -1,3 +1,4 @@
+using AspCoreVue;
 using AspNetCore.Form;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Models;
 
 namespace VueFront
 {
@@ -24,7 +26,8 @@ namespace VueFront
 
             services.AddControllersWithViews();
 
-            services.AddFormEndpoint(new System.Reflection.Assembly[] { typeof(Customer).Assembly });
+            services.AddFormEndpoint();
+            services.AddFormEndpoint(typeof(Customer), typeof(Contact));
 
 
             // In production, the React files will be served from this directory

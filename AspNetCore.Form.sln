@@ -15,7 +15,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Itens de Solução", "Itens
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{80437B07-181D-4421-8C7E-B939B9F8A90F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspCoreVue", "VueFront\AspCoreVue.csproj", "{6D04E973-8315-460F-AA5A-0BA43B4A4400}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspCoreVue", "VueFront\AspCoreVue.csproj", "{6D04E973-8315-460F-AA5A-0BA43B4A4400}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{40357662-4774-4F24-9F4B-AF099C4692B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,10 @@ Global
 		{6D04E973-8315-460F-AA5A-0BA43B4A4400}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6D04E973-8315-460F-AA5A-0BA43B4A4400}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6D04E973-8315-460F-AA5A-0BA43B4A4400}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40357662-4774-4F24-9F4B-AF099C4692B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40357662-4774-4F24-9F4B-AF099C4692B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40357662-4774-4F24-9F4B-AF099C4692B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40357662-4774-4F24-9F4B-AF099C4692B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
