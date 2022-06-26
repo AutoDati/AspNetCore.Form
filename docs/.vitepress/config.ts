@@ -6,6 +6,7 @@ export default defineConfig({
   description: "Generate Form Schemas from source code",
 
   lastUpdated: true,
+  base: "/AspNetCore.Form/",
 
   themeConfig: {
     nav: nav(),
