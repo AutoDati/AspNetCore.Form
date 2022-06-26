@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Reflection;
 
 namespace AspNetCore.Form
 {
@@ -8,244 +11,149 @@ namespace AspNetCore.Form
     {
         private readonly Type _type;
 
-        public InputControl(string label)
+        public InputControl(PropertyInfo property, FormInputAttribute formAttribute)
         {
-            Label = label;
-        }
+            _type = property.PropertyType;
+            PropertyName = property.Name;
 
-        public InputControl(string name, Type type, RequiredAttribute requiredAttribute, MinLengthAttribute minlengAttribute,
-            MaxLengthAttribute maxlengAttribute,  FormAttribute formAttribute)
-        {
-            _type = type;
+            var attrs = property.GetCustomAttributes();
+            var attrsFrom = property.GetCustomAttribute<FromPropertyAttribute>()?.SourceAttributes?.ToList();
 
-            PropertyName = name; // String.IsNullOrEmpty(formAttribute.OverridePropertyName) ? propertyName : formAttribute.OverridePropertyName;
-            Required = requiredAttribute != null;
-            MinLength = minlengAttribute != null ? (int?)minlengAttribute.Length : null;
-            MaxLength = maxlengAttribute != null ? (int?)maxlengAttribute.Length : null;
+            var attrList = attrs.ToList();
 
-            Label = formAttribute?.Label ?? PropertyName;
+            if (attrsFrom != null && attrsFrom.Any())
+                attrList.AddRange(attrsFrom);
 
-            PlaceHolder = formAttribute?.PlaceHolder;
-            Helper = formAttribute?.Helper;
+            Type ??= GetControlType();
 
-
-            DataSource = formAttribute?.DataSource; 
-            
-            if (formAttribute is null) {
-                Type =  GetControlType(); // new SimpleNamedEntity { Id = ((int)control).ToString(), Name = control.ToString() };
-            }
-            else {
-                DefaultValue = formAttribute.DefaultValue;
-                //DependsOn = formAttribute.DependsOn;
-                Group = formAttribute.Group;
-                //Mask = formAttribute.Mask;
-                //Unmask = formAttribute.Unmask;
-                //CharacterPattern = formAttribute.CharacterPattern;
-                //FileAccept = formAttribute.FileAccept;
-                IsVisible = formAttribute.IsVisible ? null : (bool?)false;
-                //ExcludeFromResponse = formAttribute.ExcludeFromResponse;
-                SourceName = formAttribute.SourceName;
-                //EntityLabelPropertyName = formAttribute.EntityLabelPropertyName;
-                //LinkedDisplayName = formAttribute.LinkedDisplayName;
-                //LinkedPropertyName = formAttribute.LinkedPropertyName;
-                //VisibleBasedOnInput = formAttribute.VisibleBasedOnInput;
-                //HiddenBasedOnInput = formAttribute.HiddenBasedOnInput;
-
-                //var control =  formAttribute.InputType != Form.InputType.Default ? formAttribute.InputType.ToString().ToLower() : GetControlType();
-
-                Type = formAttribute.Type != Form.InputType.Default ? formAttribute.Type.ToString().ToLower() : GetControlType(); // new SimpleNamedEntity { Id = ((int)control).ToString(), Name = control.ToString() };
-
-                //if (control == FormType.DropDown || control == FormType.MultiSelect || control == FormType.LinkedDropDown)
-                //{
-                //    PropertyName = FixDropDownName(propertyName);
-                //    ShowFilter = formAttribute.ShowFilter;
-                //    FilterMatchMode = formAttribute.FilterMatchMode;
-                //}
-
-                if (formAttribute.Type == Form.InputType.TextArea)
+            foreach (var att in attrList)
+            {
+                switch (att)
                 {
-                    TextAreaRows = formAttribute.TextAreaRows > 0 ? formAttribute.TextAreaRows : 5;
+                    case RequiredAttribute _:
+                        Required = true;
+                        break;
+                    case MinLengthAttribute ml:
+                        MinLength = ml.Length;
+                        break;
+                    case MaxLengthAttribute ml:
+                        MaxLength = ml.Length;
+                        break;
+                    case StringLengthAttribute sl:
+                        MinLength = sl.MinimumLength;
+                        MaxLength = sl.MaximumLength;
+                        break;
+                    case RangeAttribute r:
+                        Min = (int?)r.Minimum;
+                        Max = (int?)r.Maximum;
+                        break;
+                    case EmailAddressAttribute _:
+                        Type = "email";
+                        break;
+                    case DataTypeAttribute dt:
+                        Type = dt.DataType.ToString();
+                        break;
+                    case FormInputAttribute fi:
+                        DefaultValue = fi.DefaultValue;
+                        Group = fi.Group;
+                        IsVisible = fi.IsVisible;
+                        SourceName = fi.SourceName;
+                        Label = fi.Label;
+                        PlaceHolder = fi.PlaceHolder;
+                        DataSource = fi.DataSource;
+                        Group = fi.Group;
+                        Type = fi.Type != InputType.Default ? formAttribute.Type.ToString().ToLower() : GetControlType();
+
+                        if (formAttribute.Type is InputType.TextArea)
+                        {
+                            TextAreaRows = formAttribute.TextAreaRows > 0 ? formAttribute.TextAreaRows : 5;
+                        }
+                        break;
+                    case RegularExpressionAttribute re:
+                        Regex = re.Pattern;
+                        break;
+                    case ReadOnlyAttribute ro:
+                        ReadOnly = ro.IsReadOnly;
+                        break;
                 }
-            }
-            // -- 
 
-            Type enumType = null;
-
-            if (_type.IsEnum)
-            {
-                Required = true;
-                enumType = _type;
-            }
-            else if (Nullable.GetUnderlyingType(_type)?.IsEnum == true)
-            {
-                Required = false;
-                enumType = Nullable.GetUnderlyingType(_type);
             }
 
-            //if (enumType != null)
-            //{
-            //    Data = EnumToSimpleNamedList(enumType).OrderBy(x => x.Name).ToList();
-            //}
-
-            // -- 
-
-
-            // --
-            // The Attribute doesn't accept nullable properties, so this is handled
-            // here to doesn't send default values to the front
-            if (ExcludeFromResponse == false)
-            {
-                ExcludeFromResponse = null;
-            }
-
-            if (TextAreaRows == 0)
-            {
-                TextAreaRows = null;
-            }
-            // --
         }
 
         public string Type { get; set; }
+        public string Regex { get; set; }
         public string DataSource { get; set; }
         public string SourceName { get; set; }
         public string PropertyName { get; set; }
-
         public string Label { get; set; }
         public object DefaultValue { get; set; }
         public string Group { get; set; }
         public bool? IsVisible { get; set; } = true;
+        public bool? ReadOnly { get; set; }
         public bool? ExcludeFromResponse { get; set; }
-
-        //public string DependsOn { get; set; }
-
         public int? TextAreaRows { get; set; }
-
-        //public string Mask { get; set; }
-        //public bool? Unmask { get; set; }
-        //public string CharacterPattern { get; set; }
-
-        //public string FileAccept { get; set; }
-
-        //public bool? ShowFilter { get; set; }
-        //public string FilterMatchMode { get; set; }
-
-        public bool Required { get; set; }
+        public bool? Required { get; set; }
+        public int? Min { get; set; }
+        public int? Max { get; set; }
         public int? MinLength { get; set; }
         public int? MaxLength { get; set; }
-
         public string PlaceHolder { get; set; }
         public string Helper { get; set; }
-        //public List<SimpleNamedEntity<object>> Data { get; set; }
-
-        //public string EntityLabelPropertyName { get; set; }
-
-        //public string LinkedDisplayName { get; set; }
-        //public string LinkedPropertyName { get; set; }
-        //public string VisibleBasedOnInput { get; set; }
-        //public string HiddenBasedOnInput { get; set; }
-
+        public IEnumerable<(string value, string label)> Options { get; set; }
+        public IEnumerable<string> OptionsLabels { get; set; }
         private string GetControlType()
         {
-            switch (_type)
+            var typeCode = System.Type.GetTypeCode(Nullable.GetUnderlyingType(_type));
+            if (typeCode == TypeCode.Empty) typeCode = System.Type.GetTypeCode(_type);
+
+            switch (typeCode)
             {
-                
-                default:
-                    break;
+                case TypeCode.String when (MaxLength.HasValue && MaxLength.Value > 512):
+                    return InputType.TextArea.ToString().ToLower();
+                case TypeCode.String:
+                    return InputType.Text.ToString().ToLower();
+
+                case TypeCode.Boolean:
+                    return InputType.CheckBox.ToString().ToLower();
+
+                case TypeCode.Int32:
+                case TypeCode.Int64:
+                    return InputType.Number.ToString().ToLower();
+
+                case TypeCode.Single:
+                case TypeCode.Double:
+                case TypeCode.Decimal:
+                    return InputType.Decimal.ToString().ToLower();
+
+                case TypeCode.DateTime:
+                    return InputType.Date.ToString().ToLower();
+
             }
 
-            if (_type.FullName == typeof(String).FullName)
+            if (_type.IsEnum || Nullable.GetUnderlyingType(_type)?.IsEnum == true)
             {
-                if (MaxLength.HasValue && MaxLength.Value <= 512)
-                {
-                    return Form.InputType.Text.ToString().ToLower() ;
-                }
-                else if (MaxLength.HasValue && MaxLength.Value > 512)
-                {
-                    return Form.InputType.TextArea.ToString().ToLower() ;
-                }
-                else
-                {
-                    return Form.InputType.Text.ToString().ToLower() ;
-                }
+                return InputType.Select.ToString().ToLower();
             }
-            else if (_type.FullName == typeof(Boolean).FullName || _type.FullName == typeof(Boolean?).FullName)
+
+            if (_type is IEnumerable<string>)
             {
-                return Form.InputType.CheckBox.ToString().ToLower() ;
+                return InputType.List.ToString().ToLower();
             }
-            else if (_type.FullName == typeof(Int32).FullName || _type.FullName == typeof(Int64).FullName ||
-                     _type.FullName == typeof(Int32?).FullName || _type.FullName == typeof(Int64?).FullName)
+
+            if (_type.FullName.StartsWith("System.Collections.Generic.List`1") || _type.FullName.StartsWith("System.Collections.Generic.IEnumerable`1"))
             {
-                return Form.InputType.Number.ToString().ToLower() ;
+                return InputType.MultiSelect.ToString().ToLower();
             }
-            else if (_type.FullName == typeof(Single).FullName || _type.FullName == typeof(Single?).FullName ||
-                     _type.FullName == typeof(Double).FullName || _type.FullName == typeof(Double?).FullName ||
-                     _type.FullName == typeof(Decimal).FullName || _type.FullName == typeof(Decimal?).FullName)
+
+            if (_type.FullName == typeof(Guid).FullName || _type.FullName == typeof(Guid?).FullName)
             {
-                return Form.InputType.Decimal.ToString().ToLower() ;
+                return InputType.Text.ToString().ToLower();
             }
-            else if (_type.FullName == typeof(DateTime).FullName || _type.FullName == typeof(DateTime?).FullName)
-            {
-                return Form.InputType.Date.ToString().ToLower() ;
-            }
-            //else if (typeof(BaseEntity).IsAssignableFrom(_type))
-            //{
-            //    PropertyName = FixDropDownName(PropertyName);
-            //    return FormType.DropDown;
-            //}
-            else if (_type.IsEnum)
-            {
-                return Form.InputType.DropDown.ToString().ToLower() ;
-            }
-            else if (Nullable.GetUnderlyingType(_type)?.IsEnum == true)
-            {
-                return Form.InputType.DropDown.ToString().ToLower() ;
-            }
-            else if (_type.FullName == typeof(string[]).FullName || _type.FullName == typeof(List<string>).FullName)
-            {
-                return Form.InputType.List.ToString().ToLower() ;
-            }
-            else if (_type.FullName.StartsWith("System.Collections.Generic.List`1") || _type.FullName.StartsWith("System.Collections.Generic.IEnumerable`1"))
-            {
-                return Form.InputType.MultiSelect.ToString().ToLower() ;
-            }
-            else if (_type.FullName == typeof(Guid).FullName || _type.FullName == typeof(Guid?).FullName)
-            {
-                return Form.InputType.Text.ToString().ToLower() ;
-            }
-            else
-            {
-                throw new NotSupportedException("Type not supported: " + _type.FullName);
-            }
+
+            throw new NotSupportedException("Type not supported: " + _type.FullName);
         }
 
-        //private string FixDropDownName(string propertyName)
-        //{
-        //    return propertyName.EndsWith("Id") ? propertyName.Substring(0, propertyName.Length - 2) : propertyName;
-        //}
-
-        //private List<SimpleNamedEntity<object>> EnumToSimpleNamedList(Type type)
-        //{
-        //    var results = new List<SimpleNamedEntity<object>>();
-        //    var names = Enum.GetNames(type);
-        //    for (int i = 0; i < names.Length; i++)
-        //    {
-        //        var name = names[i];
-        //        var field = type.GetField(name);
-        //        var fds = field.GetCustomAttributes(typeof(DescriptionAttribute), true).FirstOrDefault();
-        //        var id = (int)Enum.Parse(type, name);
-
-        //        if (fds != null)
-        //        {
-        //            results.Add(new SimpleNamedEntity<object> { Id = id, Name = (fds as DescriptionAttribute).Description });
-        //        }
-        //        else
-        //        {
-        //            results.Add(new SimpleNamedEntity<object> { Id = id, Name = field.Name });
-        //        }
-        //    }
-
-        //    return results;
-        //}
     }
 
 }

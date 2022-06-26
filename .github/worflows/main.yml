@@ -1,0 +1,39 @@
+name: Build and Deploy
+on:
+  #workflow_dispatch
+
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+jobs:
+  build-and-deploy-dotnet:
+    #concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: ["5.0.x"]
+        node-version: [16]
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2
+      # DOTNET
+      # - name: Setup .NET Core SDK ${{ matrix.dotnet-version }} 🤓
+      #   uses: actions/setup-dotnet@v1.7.2
+      #   with:
+      #     dotnet-version: ${{ matrix.dotnet-version }}
+      # - name: Install dependencies
+      #   run: dotnet restore
+      # - name: Build .NET
+      #   run: dotnet build ServiceNow.Core --configuration Release --no-restore
+      #NODEJS
+      - name: Install and build documentation 🚧
+        run: |
+          npm install
+          npm run docs:build
+          ls -la /home/runner/work/AspNetCore.Form/AspNetCore.Form/docs/.vitepress/dist
+      - name: Deploy Documentation 📕
+        uses: JamesIves/github-pages-deploy-action@v4.2.2
+        with:
+          branch: gh-pages # The branch the action should deploy to.
+          folder: AspNetCore.Form/docs/.vitepress/dist # The folder the action should deploy.

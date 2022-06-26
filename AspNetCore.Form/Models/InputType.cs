@@ -10,7 +10,7 @@
         Date = 2,
         Color = 3,
         Currency = 4,
-        DropDown = 5,
+        Select = 5,
         File = 6,
         MultiSelect = 7,
         Number = 8,

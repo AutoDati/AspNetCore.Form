@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AspNetCore.Form
 {
@@ -9,8 +7,8 @@ namespace AspNetCore.Form
     /// Makes every property in a class an input form field
     /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
-    public class FormGroupAttribute: Attribute
+    public class FormGroupAttribute : Attribute
     {
-        
+
     }
 }

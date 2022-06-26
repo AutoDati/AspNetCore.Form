@@ -13,7 +13,8 @@ namespace AspNetCore.Form
             {
                 services.AddSingleton(new AddFormEndpointOptions(scanMarkers));
             }
-            else {
+            else
+            {
                 var existingInstance = services.BuildServiceProvider().GetRequiredService<AddFormEndpointOptions>();
                 var temp = existingInstance.Assemblies.ToList();
                 temp.AddRange(scanMarkers);

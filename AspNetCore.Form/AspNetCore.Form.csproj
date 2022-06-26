@@ -10,7 +10,7 @@
     <RepositoryUrl>https://github.com/emersonbottero/AspNetCore.Form</RepositoryUrl>
     <PackageTags>form;asp;net;core</PackageTags>
     <PackageReleaseNotes>Initial Version with basic functionality</PackageReleaseNotes>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
   </PropertyGroup>
 
   <ItemGroup>

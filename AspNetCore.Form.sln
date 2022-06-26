@@ -17,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{80437B07-1
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AspCoreVue", "VueFront\AspCoreVue.csproj", "{6D04E973-8315-460F-AA5A-0BA43B4A4400}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{40357662-4774-4F24-9F4B-AF099C4692B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{40357662-4774-4F24-9F4B-AF099C4692B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,6 +43,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6D04E973-8315-460F-AA5A-0BA43B4A4400} = {80437B07-181D-4421-8C7E-B939B9F8A90F}
+		{40357662-4774-4F24-9F4B-AF099C4692B7} = {80437B07-181D-4421-8C7E-B939B9F8A90F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EAB95E3E-FB5D-4514-8294-AF31347D0CCD}

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace AspNetCore.Form
@@ -9,33 +8,20 @@ namespace AspNetCore.Form
     {
         public const int InputTextMaxLengh = 50;
 
-        public List<FormGroup> Build(Type type) //, OperationType operation
+        public List<FormGroup> Build(Type type)
         {
-            var results = new List<FormGroup>();
+            var formGroups = new List<FormGroup>();
             var allInputs = new List<InputControl>();
             var isFormGroupClass = type.GetCustomAttributes(typeof(FormGroupAttribute), false).Any();
 
             foreach (var property in type.GetProperties())
             {
-                var required = type.GetAttributeFrom<RequiredAttribute>(property);
-                var minlen = type.GetAttributeFrom<MinLengthAttribute>(property);
-                var maxlen = type.GetAttributeFrom<MaxLengthAttribute>(property);
+                var dialogData = type.GetAttributeFrom<FormInputAttribute>(property);
 
-                var dialogData = type.GetAttributeFrom<FormAttribute>(property);
-
-                if (dialogData != null || isFormGroupClass)// && (operation == dialogData.Operation || dialogData.Operation == OperationType.CreateAndUpdate))
+                if (dialogData != null || isFormGroupClass)
                 {
-                    var name = property.Name; // Char.ToLower(property.Name[0]) + property.Name.Substring(1);
-
-                    //if (dialogData.Source == DataSource.ChildForm)
-                    //{
-                    //    allInputs.AddRange(Build(property.PropertyType, operation).SelectMany(x => x.Controls));
-                    //}
-                    //else
-                    {
-                        var inputData = new InputControl(name, property.PropertyType, required, minlen, maxlen, dialogData);
-                        allInputs.Add(inputData);
-                    }
+                    var inputData = new InputControl(property, dialogData);
+                    allInputs.Add(inputData);
                 }
             }
 
@@ -47,11 +33,11 @@ namespace AspNetCore.Form
                 group.Name = groupedData.Key;
                 group.Controls.AddRange(groupedData.ToList());
 
-                results.Add(group);
+                formGroups.Add(group);
             }
 
-            return results;
+            return formGroups;
         }
-    
+
     }
 }

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using static AspNetCore.Form.FormDataBuilder;
 
 namespace AspNetCore.Form
 {

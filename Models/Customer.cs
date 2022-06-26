@@ -1,5 +1,6 @@
 ﻿using AspNetCore.Form;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -14,21 +15,24 @@ namespace Models
             Age = age;
             Email = email;
         }
+
+        public bool? BooleanProp { get; set; }
+
         [Required]
         [MinLength(3)]
         public string Name { get; set; }
 
         [StringLength(50, MinimumLength = 3)]
-        public string Name2{ get; set; }
+        public string Name2 { get; set; }
 
-        [ScaffoldColumn(false)]
-        public int Id2 { get; set; }
+        [FormInput(Type = InputType.Range)]
+        public int Years { get; set; }
 
-        [Range(3,10)]
+        [Range(3, 10)]
         [Required]
-        [Form( PlaceHolder = "type your age" )]
+        [FormInput(PlaceHolder = "type your age")]
         public int Age { get; set; }
-        [EmailAddress] 
+        [EmailAddress]
         public string Email { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy hh:mm:ss tt}")]
