@@ -24,6 +24,7 @@ Produces form schema's to be consumed by different front end form builders like:
 
 ```csharp
 // startup.cs
+
 ...
 service.AddFormEndpoint(typeof(class))
 
