@@ -2,6 +2,8 @@
 
 Provides and endpoint for form schema's to be consume by front ends
 
+See the 📕 [Full Documentation](https://emersonbottero.github.io/AspNetCore.Form/)
+
 ## Form schemas
 
 Produces form schema's to be consumed by different front end form builders like:
