@@ -10,6 +10,7 @@ export default defineConfig({
 
   themeConfig: {
     nav: nav(),
+    logo: "icon.png",
 
     sidebar: {
       "/guide/": sidebarGuide(),
