@@ -2,7 +2,7 @@
 
 Provides and endpoint for form schema's to be consume by front ends
 
-See the 📕 [Full Documentation](https://emersonbottero.github.io/AspNetCore.Form/)
+See the 📕 [Full Documentation](https://autodati.github.io/AspNetCore.Form/)
 
 ## Form schemas
 
